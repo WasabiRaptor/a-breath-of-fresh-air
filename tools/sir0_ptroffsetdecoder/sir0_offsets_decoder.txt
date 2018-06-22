@@ -1,0 +1,5 @@
+Pass a file containing only the encoded SIR0 ptr offset list. In a SIR0-wrappend file, that list begins where the second pointer in 
+the SIR0 header points to.
+Drag and drop that file with only the encoded offset list onto the .bat file, and the resulting decoded 
+offsets will be written to decoded.txt!
+It ignores padding bytes at the end of the list.

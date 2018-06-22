@@ -1,0 +1,38 @@
+Pass a file containing all the encoded integer lists one after the other. Drag-and-drop onto batch file to output to decoded.txt file!
+Program ignores padding bytes at the end.
+
+Supports from 8 bits integers to 32 bits integers ( actually possible integers are 7, 14, 21, 28 bits long, given 1 bit is given up for each byte to encode )
+
+Encoded integers are stored as a sequence of bytes. For each bytes apply those conditional operations.
+
+* If the highest bit of a byte is 1, ignore that bit, bitwise OR that value into the buffer, shift by 7 bits left.
+* If the highest bit of a byte is 0, ignore that bit, bitwise OR that into the buffer. No further bytes needs to be appended.
+* If the byte is 0, and no previous byte had its highest bit set to 1, its the end of the list!
+
+Ex:
+0x81 0x82 0x0 0x08
+
+Buff = ( Buff | (0x81 & 0x7F) ) << 7
+Buff = ( Buff | (0x82 & 0x7F) ) << 7 
+Buff = ( Buff | (0x0  & 0x7F) ) << 7 
+Buff = ( Buff | 0x08 )                  //Since last byte's highest bit was 0, no need to shift left by 7!
+return Buff;
+
+Ex2:
+0xC1 0x05
+
+Buff = ( Buff | (0xC1 & 0x7F) ) << 7
+Buff = ( Buff | 0x05 )                  //Since last byte's highest bit was 0, no need to shift left by 7!
+return Buff;
+
+Ex3:
+0x01
+
+Buff = ( Buff | 0x01 )
+return Buff;
+
+Ex4:
+0x00
+
+//Do nothing, end of sequence detected!
+
